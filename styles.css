@@ -1,30 +1,88 @@
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	outline: none;
-	border: 1px solid red;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-
 	/* Variables */
 	--html-background: #ccfbf1;
 	--button-background-color: #115e59;
 	--color-white: #f0fdfa;
+	--body-text-color: #042f2e;
+
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	outline: none;
+	/* border: 1px solid red; */
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	color: var(--body-text-color);
 }
 
 body {
 	background-color: var(--html-background);
+	min-height: 100vh;
+}
+
+a:link,
+a:visited {
+	text-decoration: none;
+}
+
+a:link:hover {
+	text-decoration: underline;
 }
 
 .container {
+	min-height: 100%;
 	position: relative;
 	display: grid;
 	grid-template-rows: 1fr 4fr;
 	margin: 30px;
+	background: #99f6e4;
+	border-radius: 10px;
 }
 
 .header {
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	background-color: var(--button-background-color);
 	grid-area: 1 / 1 / 2 / 2;
+	padding: 10px 100px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header > * {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	grid-template-rows: max-content;
+	place-items: center;
+	place-content: center;
+	column-gap: 15px;
+}
+
+.header button {
+	background: none;
+	border: none;
+	display: grid;
+	place-items: center;
+}
+
+.header button:hover {
+	transform: scale(1.1);
+	transition: all 0.2s;
+	cursor: pointer;
+}
+
+.header img {
+	border-radius: 50%;
+}
+
+.user-info-container p > a {
+	color: var(--color-white);
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.logo-container a {
+	color: var(--color-white);
 }
 
 .body-container {
@@ -37,6 +95,7 @@ form {
 
 /* Add-book buttons will float with the screen */
 button.add-book {
+	border: none;
 	position: fixed;
 	font-size: 2.5rem;
 	font-weight: 800;
