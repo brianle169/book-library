@@ -1,0 +1,57 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	outline: none;
+	border: 1px solid red;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+	/* Variables */
+	--button-background-color: #115e59;
+	--color-white: #f0fdfa;
+}
+
+.container {
+	position: relative;
+	display: grid;
+	grid-template-rows: 1fr 4fr;
+}
+
+.header {
+	grid-area: 1 / 1 / 2 / 2;
+}
+
+.body-container {
+	grid-area: 2 / 1 / 3 / 2;
+}
+
+form {
+	position: fixed;
+}
+
+/* Add-book buttons will float with the screen */
+button.add-book {
+	position: fixed;
+	font-size: 2.5rem;
+	font-weight: 800;
+	background-color: var(--button-background-color);
+	color: var(--color-white);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	width: 4rem;
+	height: 4rem;
+	bottom: 40px;
+	right: 40px;
+}
+
+button.add-book:hover {
+	transform: scale(1.1) rotate(90deg);
+	transition: all 0.2s;
+	cursor: pointer;
+}
+
+button.add-book:not(:hover) {
+	transform: rotate(0deg);
+	transition: all 0.2s;
+}
