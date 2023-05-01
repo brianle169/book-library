@@ -90,55 +90,6 @@ a:link:hover {
 	grid-template: max-content 1fr / 1fr 4fr;
 }
 
-.body-container > .search-bar {
-	padding: 10px 50px;
-	background-color: var(--color-white);
-	display: grid;
-	grid-template-columns: max-content 1fr;
-	align-items: center;
-}
-
-.search-bar .search-area {
-	display: grid;
-	grid-template-columns: max-content 40%;
-	justify-content: center;
-	align-items: center;
-	column-gap: 10px;
-}
-
-.search-area input[type="search"] {
-	appearance: none;
-	outline: none;
-}
-
-.search-area input[type="search"]::placeholder {
-	color: #042f2e5d;
-	font-size: 1rem;
-	font-style: italic;
-}
-
-.search-area input[type="search"] {
-	border: none;
-	background: #99f6e4;
-	border-radius: 20px;
-	font-size: 1.2rem;
-	padding: 5px 15px;
-}
-
-.search-area input[type="search"]:hover {
-	background: #84d6c6;
-}
-
-.search-area input[type="search"]:focus {
-	background: var(--color-white);
-	box-shadow: 2px 3px 5px 0px #042f2e81;
-	transform: translateY(-5%);
-	transition: all 0.2s;
-}
-.search-area input[type="search"]:focus::placeholder {
-	color: var(--color-white);
-}
-
 .library-log {
 	background: #2dd4bf;
 	grid-column: 1;
@@ -205,6 +156,55 @@ a:link:hover {
 	background: #ca324c;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
+}
+
+.body-container > .search-bar {
+	padding: 10px 50px;
+	background-color: var(--color-white);
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	align-items: center;
+}
+
+.search-bar .search-area {
+	display: grid;
+	grid-template-columns: max-content 40%;
+	justify-content: center;
+	align-items: center;
+	column-gap: 10px;
+}
+
+.search-area input[type="search"] {
+	appearance: none;
+	outline: none;
+}
+
+.search-area input[type="search"]::placeholder {
+	color: #042f2e5d;
+	font-size: 1rem;
+	font-style: italic;
+}
+
+.search-area input[type="search"] {
+	border: none;
+	background: #99f6e4;
+	border-radius: 20px;
+	font-size: 1.2rem;
+	padding: 5px 15px;
+}
+
+.search-area input[type="search"]:hover {
+	background: #84d6c6;
+}
+
+.search-area input[type="search"]:focus {
+	background: var(--color-white);
+	box-shadow: 2px 3px 5px 0px #042f2e81;
+	transform: translateY(-5%);
+	transition: all 0.2s;
+}
+.search-area input[type="search"]:focus::placeholder {
+	color: var(--color-white);
 }
 
 .book-cards-container {
