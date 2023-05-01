@@ -35,6 +35,7 @@ a:link:hover {
 	margin: 20px;
 	background: #99f6e4;
 	border-radius: 10px;
+	filter: blur(5px);
 }
 
 .header {
@@ -64,7 +65,8 @@ a:link:hover {
 	place-items: center;
 }
 
-.header button:hover {
+.header button:hover,
+.card button:hover {
 	transform: scale(1.1);
 	transition: all 0.2s;
 	cursor: pointer;
@@ -174,7 +176,8 @@ a:link:hover {
 	column-gap: 10px;
 }
 
-.search-area input[type="search"] {
+.search-area input[type="search"],
+.form-input input {
 	appearance: none;
 	outline: none;
 }
@@ -185,7 +188,9 @@ a:link:hover {
 	font-style: italic;
 }
 
-.search-area input[type="search"] {
+.search-area input[type="search"],
+.form-input input[type="text"],
+.form-input input[type="number"] {
 	border: none;
 	background: #99f6e4;
 	border-radius: 20px;
@@ -193,11 +198,15 @@ a:link:hover {
 	padding: 5px 15px;
 }
 
-.search-area input[type="search"]:hover {
+.search-area input[type="search"]:hover,
+.form-input input[type="text"]:hover,
+.form-input input[type="number"]:hover {
 	background: #84d6c6;
 }
 
-.search-area input[type="search"]:focus {
+.search-area input[type="search"]:focus,
+.form-input input[type="text"]:focus,
+.form-input input[type="number"]:focus {
 	background: var(--color-white);
 	box-shadow: 2px 3px 5px 0px #042f2e81;
 	transform: translateY(-5%);
@@ -216,7 +225,6 @@ a:link:hover {
 }
 
 .card {
-	position: relative;
 	color: var(--body-text-color);
 	height: 250px;
 	padding: 20px 30px;
@@ -228,11 +236,12 @@ a:link:hover {
 	row-gap: 10px;
 }
 
-.card::after {
-	content: url(img/trash-can.svg);
-	position: absolute;
-	bottom: 10px;
-	right: 30px;
+.card button {
+	background: none;
+	width: fit-content;
+	height: fit-content;
+	border: none;
+	align-self: flex-end;
 }
 
 .card fieldset,
@@ -240,18 +249,130 @@ a:link:hover {
 	appearance: none;
 }
 
-.card fieldset {
+.card fieldset,
+.add-book-form fieldset {
 	border: none;
 	padding: 10px 0px;
 }
 
-.card fieldset > legend {
+.card fieldset > legend,
+.add-book-form fieldset > legend {
 	font-size: 1.2rem;
 	font-weight: 650;
 }
 
+.card .options,
+.add-book-form .options {
+	display: flex;
+	justify-content: space-between;
+}
+
+.options .option {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.card input[type="radio"],
+.add-book-form input[type="radio"] {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: var(--color-white);
+	border: 2px solid var(--button-background-color);
+}
+
+.card input[type="radio"]::before,
+.add-book-form input[type="radio"]::before {
+	display: block;
+	content: " ";
+	width: 11px;
+	height: 11px;
+	border-radius: 50%;
+	background-color: var(--button-background-color);
+	font-size: 1.2rem;
+	transform: translate(3px, 3px) scale(0);
+	transform-origin: center;
+	transition: all 0.3s ease-in;
+}
+
+.card input[type="radio"]:checked::before,
+.add-book-form input[type="radio"]:checked::before {
+	transform: translate(3px, 3px) scale(1);
+	transition: all 0.3s cubic-bezier(0.25, 0.25, 0.56, 2);
+}
+
 form {
 	position: fixed;
+
+	left: 50%;
+	top: 50%;
+	margin-left: -200px;
+	margin-top: -300px;
+
+	z-index: 100;
+	display: flex;
+	padding: 20px 50px;
+	flex-direction: column;
+	width: 400px;
+	height: 600px;
+	gap: 20px;
+	background: #14b8a6;
+	border-radius: 20px;
+}
+
+form > h1 {
+	align-self: center;
+	color: var(--color-white);
+}
+
+.form-input {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.form-input > label {
+	font-size: 1.2rem;
+	color: var(--color-white);
+}
+
+.form-input input[type="checkbox"] {
+	width: 1.3rem;
+	height: 1.3rem;
+	background-color: var(--color-white);
+}
+
+.form-input > legend,
+.option > * {
+	color: var(--color-white);
+}
+
+.add-book-form button {
+	outline-color: transparent;
+	border: none;
+	font-size: 1.2rem;
+	font-weight: 600;
+	padding: 5px 10px;
+	color: var(--color-white);
+	background: var(--button-background-color);
+	width: 50%;
+	height: fit-content;
+	align-self: center;
+	border-radius: 10px;
+}
+
+.add-book-form button:hover {
+	cursor: pointer;
+	box-shadow: 3px 3px 3px 0px #021d1dae;
+	transform: translateY(-5%) translateX(-2%);
+	transition: all 0.1s;
+}
+
+.add-book-form button:active {
+	box-shadow: none;
+	transform: translateY(0%) translateX(0%);
+	transition: none 0.1s;
 }
 
 /* Add-book buttons will float with the screen */

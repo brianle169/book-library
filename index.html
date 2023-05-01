@@ -85,116 +85,89 @@
 						<fieldset class="book-status">
 							<legend>Book Status</legend>
 							<div class="options">
-								<label for="status-read"> Read </label>
-								<input
-									type="radio"
-									id="status-read"
-									name="status"
-									value="read" />
-								<label for="status-notread"> Not Read </label>
-								<input
-									type="radio"
-									id="status-notread"
-									name="status"
-									value="notread" />
-								<label for="status-in-progress"> In Progress </label>
-								<input
-									type="radio"
-									id="status-in-progress"
-									name="status"
-									value="in-progress" />
+								<div class="option">
+									<label for="status-read"> Read </label>
+									<input
+										type="radio"
+										id="status-read"
+										name="status"
+										value="read" />
+								</div>
+								<div class="option">
+									<label for="status-notread"> Not Read </label>
+									<input
+										type="radio"
+										id="status-notread"
+										name="status"
+										value="notread" />
+								</div>
+								<div class="option">
+									<label for="status-in-progress"> In Progress </label>
+									<input
+										type="radio"
+										id="status-in-progress"
+										name="status"
+										value="in-progress"
+										checked />
+								</div>
 							</div>
 						</fieldset>
-					</div>
-					<div class="card" style="background: #fca5a5">
-						<h3 class="title">The Odin Project</h3>
-						<p class="author">Author: Odin</p>
-						<p class="page">Number of Pages: 489</p>
-						<fieldset class="book-status">
-							<legend>Book Status</legend>
-							<div class="options">
-								<label for="status-read-1"> Read </label>
-								<input
-									type="radio"
-									id="status-read-1"
-									name="status-1"
-									value="read" />
-								<label for="status-notread-1"> Not Read </label>
-								<input
-									type="radio"
-									id="status-notread-1"
-									name="status-1"
-									value="notread" />
-								<label for="status-in-progress-1"> In Progress </label>
-								<input
-									type="radio"
-									id="status-in-progress-1"
-									name="status-1"
-									value="in-progress" />
-							</div>
-						</fieldset>
-					</div>
-					<div class="card" style="background: #fde047">
-						<h3 class="title">The Odin Project</h3>
-						<p class="author">Author: Odin</p>
-						<p class="page">Number of Pages: 489</p>
-						<fieldset class="book-status">
-							<legend>Book Status</legend>
-							<div class="options">
-								<label for="status-read-2"> Read </label>
-								<input
-									type="radio"
-									id="status-read-2"
-									name="status-2"
-									value="read" />
-								<label for="status-notread-2"> Not Read </label>
-								<input
-									type="radio"
-									id="status-notread-2"
-									name="status-2"
-									value="notread" />
-								<label for="status-in-progress-2"> In Progress </label>
-								<input
-									type="radio"
-									id="status-in-progress-2"
-									name="status-2"
-									value="in-progress" />
-							</div>
-						</fieldset>
+						<button class="delete">
+							<img src="img/trash-can.svg" alt="" />
+						</button>
 					</div>
 				</div>
 			</div>
-
-			<!-- A popup form to add new book -->
-			<form style="display: none">
-				<div class="form-input book-title">
-					<label for="title">
-						Book title:
-						<input id="title" type="text" />
-					</label>
-				</div>
-				<div class="form-input book-author">
-					<label for="author">
-						Book author:
-						<input id="author" type="text" />
-					</label>
-				</div>
-				<div class="form-input book-pages">
-					<label for="pages">
-						Number of pages:
-						<input id="pages" type="number" />
-					</label>
-				</div>
-				<div class="form-input book-status">
-					<label for="status">
-						<input id="status" type="checkbox" />
-						I have finished this book.
-					</label>
-				</div>
-			</form>
-			<button class="add-book">
-				<img src="img/plus.svg" alt="plus" width="45" height="45" />
-			</button>
 		</div>
+		<!-- A popup form to add new book -->
+		<button class="add-book">
+			<img src="img/plus.svg" alt="plus" width="45" height="45" />
+		</button>
+		<form class="add-book-form">
+			<h1>Add A New Book</h1>
+			<div class="form-input book-title">
+				<label for="title"> Book title: </label>
+				<input id="title" type="text" />
+			</div>
+			<div class="form-input book-author">
+				<label for="author"> Book author: </label>
+				<input id="author" type="text" />
+			</div>
+			<div class="form-input book-pages">
+				<label for="pages"> Number of pages: </label>
+				<input id="pages" type="number" />
+			</div>
+			<div class="form-input book-pages">
+				<label for="pages-read"> Number of pages read: </label>
+				<input id="pages-read" type="number" />
+			</div>
+			<fieldset class="form-input book-status">
+				<legend>Have you read this book?</legend>
+				<div class="options">
+					<div class="option">
+						<label for="status-read"> Read </label>
+						<input type="radio" id="status-read" name="status" value="read" />
+					</div>
+					<div class="option">
+						<label for="status-notread"> Not Read </label>
+						<input
+							type="radio"
+							id="status-notread"
+							name="status"
+							value="notread" />
+					</div>
+					<div class="option">
+						<label for="status-in-progress"> In Progress </label>
+						<input
+							type="radio"
+							id="status-in-progress"
+							name="status"
+							value="in-progress"
+							checked />
+					</div>
+				</div>
+			</fieldset>
+			<button>Add Book</button>
+		</form>
 	</body>
 </html>
