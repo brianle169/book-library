@@ -11,6 +11,7 @@
 	<body>
 		<div class="container">
 			<div class="header">
+				<!-- Library logo -->
 				<div class="logo-container">
 					<a href="https://github.com/brianle169/book-library">
 						<button class="logo-button">
@@ -23,23 +24,64 @@
 					</a>
 					<h2><a href="">Book Hub</a></h2>
 				</div>
+				<!-- Library owner information -->
 				<div class="user-info-container">
 					<div class="user-avatar">
 						<a href="">
 							<img
 								src="img/Confused-Penguin.svg"
 								alt="bookshelf"
-								width="80"
-								height="80" />
+								width="45"
+								height="45" />
 						</a>
 						<p class="user-name"><a href="">Guest</a></p>
 					</div>
 				</div>
 			</div>
 			<div class="body-container">
-				<div class="library-log"></div>
-				<div class="book-cards-container"></div>
+				<!-- General information about current library -->
+				<div class="library-log">
+					<p class="total-books">Total Books: 0</p>
+					<p class="books-read">Books Read: 0</p>
+					<p class="books-notread">Books Not Read: 0</p>
+				</div>
+				<!-- A container for book cards -->
+				<div class="book-cards-container">
+					<h2>Your Books</h2>
+					<!-- Book cards will be appended here -->
+					<!-- ...
+                         ... -->
+				</div>
 			</div>
+
+			<!-- A popup form to add new book -->
+			<form>
+				<div class="form-input book-title">
+					<label for="title">
+						Book title:
+						<input id="title" type="text" />
+					</label>
+				</div>
+				<div class="form-input book-author">
+					<label for="author">
+						Book author:
+						<input id="author" type="text" />
+					</label>
+				</div>
+				<div class="form-input book-pages">
+					<label for="pages">
+						Number of pages:
+						<input id="pages" type="number" />
+					</label>
+				</div>
+				<div class="form-input book-status">
+					<label for="status">
+						<input id="status" type="checkbox" />
+						I have finished this book.
+					</label>
+				</div>
+			</form>
+			<button class="add-book">+</button>
 		</div>
 	</body>
 </html>
