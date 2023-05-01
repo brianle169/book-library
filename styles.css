@@ -31,8 +31,8 @@ a:link:hover {
 	height: 100vh;
 	position: relative;
 	display: grid;
-	grid-template-rows: 1fr 4fr;
-	margin: 30px;
+	grid-template-rows: 15% 1fr;
+	margin: 20px;
 	background: #99f6e4;
 	border-radius: 10px;
 }
@@ -88,6 +88,55 @@ a:link:hover {
 	grid-area: 2 / 1 / 3 / 2;
 	display: grid;
 	grid-template: max-content 1fr / 1fr 4fr;
+}
+
+.body-container > .search-bar {
+	padding: 10px 50px;
+	background-color: var(--color-white);
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	align-items: center;
+}
+
+.search-bar .search-area {
+	display: grid;
+	grid-template-columns: max-content 40%;
+	justify-content: center;
+	align-items: center;
+	column-gap: 10px;
+}
+
+.search-area input[type="search"] {
+	appearance: none;
+	outline: none;
+}
+
+.search-area input[type="search"]::placeholder {
+	color: #042f2e5d;
+	font-size: 1rem;
+	font-style: italic;
+}
+
+.search-area input[type="search"] {
+	border: none;
+	background: #99f6e4;
+	border-radius: 20px;
+	font-size: 1.2rem;
+	padding: 5px 15px;
+}
+
+.search-area input[type="search"]:hover {
+	background: #84d6c6;
+}
+
+.search-area input[type="search"]:focus {
+	background: var(--color-white);
+	box-shadow: 2px 3px 5px 0px #042f2e81;
+	transform: translateY(-5%);
+	transition: all 0.2s;
+}
+.search-area input[type="search"]:focus::placeholder {
+	color: var(--color-white);
 }
 
 .library-log {
@@ -156,6 +205,11 @@ a:link:hover {
 	background: #ca324c;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
+}
+
+.book-cards-container {
+	padding: 10px 50px;
+	box-shadow: inset 3px 6px 5px 1px #042f2e35;
 }
 
 form {
