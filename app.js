@@ -1,15 +1,12 @@
 let myLibrary = [];
 
-function Book(title, author, pages, isRead) {
+function Book(title, author, pages, pagesRead, isRead) {
 	this.title = title;
 	this.author = author;
 	this.pages = pages;
+	this.pagesRead = pagesRead;
 	this.isRead = isRead;
 }
-
-Book.prototype.logInfo = function () {
-	return `${this.title} by ${this.author}, ${this.pages} pages, have you read?: ${this.isRead}`;
-};
 
 function addBookToLibrary() {
 	// Add book to library
@@ -19,6 +16,7 @@ const closeFormButton = document.querySelector(".close-form > img");
 const openFormButton = document.querySelector(".add-book > img");
 const addBookForm = document.querySelector(".add-book-form");
 const container = document.querySelector(".container");
+const bookCardsContainer = document.querySelector(".book-cards-container");
 
 function toggleAddBookForm(event) {
 	if (event.target === openFormButton) {

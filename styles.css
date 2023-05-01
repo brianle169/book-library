@@ -227,7 +227,6 @@ a:link:hover {
 	color: var(--body-text-color);
 	height: 250px;
 	padding: 20px 30px;
-	/* background: var(--color-white); */
 	border-radius: 10px;
 	box-shadow: 2px 2px 4px 1px #042f2e81;
 	display: flex;
