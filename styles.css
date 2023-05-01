@@ -208,8 +208,27 @@ a:link:hover {
 }
 
 .book-cards-container {
-	padding: 10px 50px;
+	padding: 30px 50px;
 	box-shadow: inset 3px 6px 5px 1px #042f2e35;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 400px));
+	gap: 20px;
+}
+
+.card {
+	position: relative;
+	height: 200px;
+	padding: 10px 30px;
+	background: var(--color-white);
+	border-radius: 10px;
+	box-shadow: 2px 2px 4px 1px #042f2e81;
+}
+
+.card::after {
+	content: url(img/trash-can.svg);
+	position: absolute;
+	bottom: 10px;
+	right: 30px;
 }
 
 form {
