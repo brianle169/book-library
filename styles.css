@@ -7,14 +7,20 @@
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
 	/* Variables */
+	--html-background: #ccfbf1;
 	--button-background-color: #115e59;
 	--color-white: #f0fdfa;
+}
+
+body {
+	background-color: var(--html-background);
 }
 
 .container {
 	position: relative;
 	display: grid;
 	grid-template-rows: 1fr 4fr;
+	margin: 30px;
 }
 
 .header {
