@@ -35,7 +35,6 @@ a:link:hover {
 	margin: 20px;
 	background: #99f6e4;
 	border-radius: 10px;
-	filter: blur(5px);
 }
 
 .header {
@@ -354,7 +353,7 @@ form > h1 {
 }
 
 .form-input > legend,
-.option > * {
+.form-input .option > * {
 	color: var(--color-white);
 }
 
@@ -400,13 +399,9 @@ button.add-book {
 	right: 40px;
 }
 
-button.add-book:hover {
-	transform: scale(1.1) rotate(90deg);
-	transition: all 0.2s;
+button.add-book:hover,
+form .close-form:hover {
+	transform: scale(1.1);
+	transition: all 0.2s ease-in-out;
 	cursor: pointer;
-}
-
-button.add-book:not(:hover) {
-	transform: rotate(0deg);
-	transition: all 0.2s;
 }
