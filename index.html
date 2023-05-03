@@ -74,7 +74,7 @@
 							type="search"
 							name="search-value"
 							id="search-bar"
-							placeholder="Search for a book" />
+							placeholder="For decoration purpose - This won't do anything" />
 					</div>
 				</div>
 				<div class="book-cards-container"></div>
@@ -101,12 +101,12 @@
 			</div>
 			<div class="form-input book-pages">
 				<label for="pages"> Number of pages </label>
-				<input id="pages" type="number" required />
+				<input id="pages" type="number" min="1" required />
 				<span></span>
 			</div>
 			<div class="form-input book-pages-read">
 				<label for="pages-read"> Number of pages read </label>
-				<input id="pages-read" type="number" disabled />
+				<input id="pages-read" type="number" min="1" disabled />
 				<span></span>
 			</div>
 			<fieldset class="form-input book-status">

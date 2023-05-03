@@ -24,13 +24,6 @@ const inputBookStatusRadios = Array.from(
 );
 
 /* Card element */
-function deleteCard(event) {
-	let thisCard = event.target.parentNode.parentNode.parentNode;
-	let thisCardIndex = thisCard.classList[1];
-	myLibrary.splice(thisCardIndex, 1);
-	cards.splice(thisCardIndex, 1);
-	bookCardsContainer.removeChild(thisCard);
-}
 
 /* Element event handler */
 function disableInput(input) {
@@ -56,7 +49,8 @@ for (let i = 0; i < inputBookStatusRadios.length; i++) {
 }
 
 function Book(title, author, pages, pagesRead, status) {
-	this.index = totalBooks++;
+	totalBooks++;
+	this.index = myLibrary.length;
 	this.title = title;
 	this.author = author;
 	this.pages = pages;
@@ -67,6 +61,29 @@ function Book(title, author, pages, pagesRead, status) {
 Book.prototype.logInfo = function () {
 	return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
 };
+
+function changeBookStatus(event) {
+	let statusValue = event.target.value;
+	let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
+	let thisCardIndex = thisCard.classList[1];
+	let thisBook = myLibrary[thisCardIndex];
+	let thisCardPagesRead = thisCard.querySelector(".pages-read");
+
+	if (statusValue === "read") {
+		thisCard.style.backgroundColor = "#bef264";
+		thisBook.status = "Read";
+		thisBook.pagesRead = thisBook.pages;
+	} else if (statusValue === "notread") {
+		thisCard.style.backgroundColor = "#fca5a5";
+		thisBook.status = "Not Read";
+		thisBook.pagesRead = 0;
+	} else if (statusValue === "reading") {
+		thisCard.style.backgroundColor = "#fdba74";
+		thisBook.status = "Reading";
+		thisBook.pagesRead = prompt("Which page are you currently on?");
+	}
+	thisCardPagesRead.innerHTML = `<b>Number of Pages Read:</b> ${thisBook.pagesRead}`;
+}
 
 function createBookCard(index, title, author, pages, pagesRead, status) {
 	let card = document.createElement("div");
@@ -90,7 +107,8 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 										type="radio"
 										id="status-read-${index}"
 										name="status-${index}"
-										value="read" 
+										value="read"
+										oninput="changeBookStatus(event)"
 										${status === "Read" ? "checked" : ""}/>
 								</div>
 								<div class="option">
@@ -100,6 +118,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 										id="status-notread-${index}"
 										name="status-${index}"
 										value="notread" 
+										oninput="changeBookStatus(event)"
 										${status === "Not Read" ? "checked" : ""}/>
 								</div>
 								<div class="option">
@@ -109,6 +128,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 										id="status-in-progress${index}"
 										name="status-${index}"
 										value="reading"
+										oninput="changeBookStatus(event)"
 										${status === "Reading" ? "checked" : ""}/>
 								</div>
 							</div>
@@ -125,6 +145,38 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 	return card;
 }
 
+function updateIndexes(index) {
+	for (let i = index; i < myLibrary.length; i++) {
+		myLibrary[i].index -= 1;
+	}
+}
+
+function displayLibrary() {
+	bookCardsContainer.innerHTML = "";
+	for (let i = 0; i < myLibrary.length; i++) {
+		let card = createBookCard(
+			myLibrary[i].index,
+			myLibrary[i].title,
+			myLibrary[i].author,
+			myLibrary[i].pages,
+			myLibrary[i].pagesRead,
+			myLibrary[i].status
+		);
+		bookCardsContainer.appendChild(card);
+	}
+}
+
+function deleteCard(event) {
+	totalBooks--;
+	let thisCard = event.target.parentNode.parentNode.parentNode;
+	let thisCardIndex = thisCard.classList[1];
+	myLibrary.splice(thisCardIndex, 1);
+	cards.splice(thisCardIndex, 1);
+	bookCardsContainer.removeChild(thisCard);
+	updateIndexes(thisCardIndex);
+	displayLibrary();
+}
+
 function addBookFormHide() {
 	addBookForm.style = "display: none;";
 	container.style = "";
@@ -134,21 +186,6 @@ function addBookFormDisplay() {
 	addBookForm.style = "display: flex;";
 	container.style = "filter: blur(5px);";
 }
-
-// function displayLibrary() {
-// 	bookCardsContainer.innerHTML = "";
-// 	for (let i = 0; i < myLibrary.length; i++) {
-// 		let card = createBookCard(
-// 			myLibrary[i].index,
-// 			myLibrary[i].title,
-// 			myLibrary[i].author,
-// 			myLibrary[i].pages,
-// 			myLibrary[i].pagesRead,
-// 			myLibrary[i].status
-// 		);
-// 		bookCardsContainer.appendChild(card);
-// 	}
-// }
 
 function addCardToScreen(book) {
 	let card = createBookCard(
@@ -212,6 +249,7 @@ closeFormButton.addEventListener("click", toggleAddBookForm);
 
 function clearAll() {
 	myLibrary.length = 0;
+	cards.length = 0;
 	bookCardsContainer.innerHTML = "";
 }
 clearAllButton.addEventListener("click", clearAll);
