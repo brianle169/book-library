@@ -79,9 +79,15 @@
 				</div>
 				<div class="book-cards-container">
 					<!-- <div class="card">
-						<h3 class="title">The Odin Project</h3>
+						<div class="card-header">
+							<h3 class="title">The Odin Project</h3>
+							<button class="delete">
+								<img src="img/trash-can.svg" alt="" />
+							</button>
+						</div>
 						<p class="author">Author: Odin</p>
 						<p class="page">Number of Pages: 489</p>
+						<p class="page-read">Number of Pages Read: 44</p>
 						<fieldset class="book-status">
 							<legend>Book Status</legend>
 							<div class="options">
@@ -112,9 +118,6 @@
 								</div>
 							</div>
 						</fieldset>
-						<button class="delete">
-							<img src="img/trash-can.svg" alt="" />
-						</button>
 					</div> -->
 				</div>
 			</div>
@@ -145,7 +148,7 @@
 			</div>
 			<div class="form-input book-pages-read">
 				<label for="pages-read"> Number of pages read </label>
-				<input id="pages-read" type="number" />
+				<input id="pages-read" type="number" disabled />
 				<span></span>
 			</div>
 			<fieldset class="form-input book-status">
@@ -153,11 +156,11 @@
 				<div class="options">
 					<div class="option">
 						<label for="read"> Yes </label>
-						<input type="radio" id="read" name="status" value="read" />
+						<input type="radio" id="read" name="status" value="Read" />
 					</div>
 					<div class="option">
 						<label for="notread"> No </label>
-						<input type="radio" id="notread" name="status" value="notread" />
+						<input type="radio" id="notread" name="status" value="Not Read" />
 					</div>
 					<div class="option">
 						<label for="in-progress"> Reading </label>
@@ -165,11 +168,11 @@
 							type="radio"
 							id="in-progress"
 							name="status"
-							value="in-progress" />
+							value="Reading" />
 					</div>
 				</div>
 			</fieldset>
-			<button class="submit-form" type="submit">Add Book</button>
+			<button type="submit" class="submit-form">Add Book</button>
 		</form>
 	</body>
 </html>

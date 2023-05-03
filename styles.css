@@ -235,6 +235,16 @@ a:link:hover {
 	row-gap: 10px;
 }
 
+.card .card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.card-header > h3 {
+	font-size: 1.2rem;
+}
+
 .card button {
 	background: none;
 	width: fit-content;
@@ -257,19 +267,19 @@ a:link:hover {
 .card fieldset > legend,
 .add-book-form fieldset > legend {
 	font-size: 1.2rem;
-	/* font-weight: 650; */
+	font-weight: 650;
 }
 
 .card .options,
 .add-book-form .options {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 }
 
 .options .option {
 	display: flex;
 	align-items: center;
-	gap: 5px;
+	gap: 10px;
 }
 
 .card input[type="radio"],
@@ -343,6 +353,7 @@ form > h1 {
 
 .form-input > label {
 	font-size: 1.2rem;
+	font-weight: 650;
 	color: var(--color-white);
 }
 
@@ -382,6 +393,11 @@ form > h1 {
 	box-shadow: none;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
+}
+
+.form-input input:disabled,
+.form-input input:disabled:hover {
+	background-color: #b1b1b1;
 }
 
 input + span {
