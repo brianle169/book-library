@@ -8,7 +8,7 @@ let newBook;
 
 const closeFormButton = document.querySelector(".close-form > img");
 const openFormButton = document.querySelector(".add-book > img");
-const submitFormButton = document.querySelector(".add-book-form .submit-form");
+// const submitFormButton = document.querySelector(".add-book-form .submit-form");
 const addBookForm = document.querySelector(".add-book-form");
 const container = document.querySelector(".container");
 const bookCardsContainer = document.querySelector(".book-cards-container");
@@ -48,7 +48,9 @@ function Book(title, author, pages, pagesRead, status) {
 	this.status = status;
 }
 
-function clearInputForm() {}
+Book.prototype.logInfo = function () {
+	return `${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
+};
 
 function createBookCard(index, title, author, pages, pagesRead, status) {
 	let card = document.createElement("div");
@@ -71,7 +73,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 									<input
 										type="radio"
 										id="status-read-${index}"
-										name="status"
+										name="status-${index}"
 										value="read" 
 										${status === "Read" ? "checked" : ""}/>
 								</div>
@@ -80,7 +82,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 									<input
 										type="radio"
 										id="status-notread-${index}"
-										name="status"
+										name="status-${index}"
 										value="notread" 
 										${status === "Not Read" ? "checked" : ""}/>
 								</div>
@@ -89,13 +91,20 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 									<input
 										type="radio"
 										id="status-in-progress${index}"
-										name="status"
+										name="status-${index}"
 										value="reading"
 										${status === "Reading" ? "checked" : ""}/>
 								</div>
 							</div>
 						</fieldset>`;
-
+	// eslint-disable-next-line no-nested-ternary
+	card.style.backgroundColor =
+		// eslint-disable-next-line no-nested-ternary
+		status === "Read"
+			? "#bef264"
+			: status === "Not Read"
+			? "#fca5a5"
+			: "#fdba74";
 	return card;
 }
 
@@ -109,30 +118,42 @@ function addBookFormDisplay() {
 	container.style = "filter: blur(5px);";
 }
 
-function addBookToLibrary(event) {
-	if (!addBookForm.validity.valid) {
-		event.preventDefault();
-	} else {
-		newBook = new Book(
-			inputBookTitle.value,
-			inputBookAuthor.value,
-			inputBookPages.value,
-			null,
-			null
+function displayLibrary() {
+	bookCardsContainer.innerHTML = "";
+	for (let i = 0; i < myLibrary.length; i++) {
+		let card = createBookCard(
+			i + 1,
+			myLibrary[i].title,
+			myLibrary[i].author,
+			myLibrary[i].pages,
+			myLibrary[i].pagesRead,
+			myLibrary[i].status
 		);
-		for (let i = 0; i < inputBookStatusRadios.length; i++) {
-			if (inputBookStatusRadios[i].checked) {
-				newBook.status = inputBookStatusRadios[i].value;
-			}
-			if (inputBookPagesRead.required) {
-				newBook.pagesRead = inputBookPagesRead.value;
-			}
-		}
-		myLibrary.push(newBook);
-		addBookForm.reset(); // Reset the whole form
-		addBookFormHide();
-		event.preventDefault(); // Prevent the window from reloading again
+		bookCardsContainer.appendChild(card);
 	}
+}
+
+function addBookToLibrary(event) {
+	newBook = new Book(
+		inputBookTitle.value,
+		inputBookAuthor.value,
+		inputBookPages.value,
+		null,
+		null
+	);
+	for (let i = 0; i < inputBookStatusRadios.length; i++) {
+		if (inputBookStatusRadios[i].checked) {
+			newBook.status = inputBookStatusRadios[i].value;
+		}
+		if (inputBookPagesRead.required) {
+			newBook.pagesRead = inputBookPagesRead.value;
+		}
+	}
+	myLibrary.push(newBook);
+	event.preventDefault(); // Prevent the window from reloading again
+	addBookForm.reset(); // Reset the whole form
+	addBookFormHide();
+	displayLibrary();
 }
 
 addBookForm.addEventListener("submit", addBookToLibrary);
@@ -141,10 +162,6 @@ addBookForm.addEventListener("submit", addBookToLibrary);
 	Loop through the library list and display books on the screen.
 	@param library: list of book objects.
 */
-function displayLibrary() {
-	let card = createBookCard(1, "Cosmos", "Carl Sagan", 245, 232, "Reading");
-	bookCardsContainer.appendChild(card);
-}
 
 function toggleAddBookForm(event) {
 	if (event.target === openFormButton) {
@@ -158,5 +175,3 @@ function toggleAddBookForm(event) {
 
 openFormButton.addEventListener("click", toggleAddBookForm);
 closeFormButton.addEventListener("click", toggleAddBookForm);
-
-displayLibrary();
