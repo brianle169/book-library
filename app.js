@@ -1,4 +1,5 @@
 let myLibrary = [];
+let cards = [];
 let totalBooks = 0;
 let booksFinished = 0;
 let booksInProgress = 0;
@@ -8,7 +9,7 @@ let newBook;
 
 const closeFormButton = document.querySelector(".close-form > img");
 const openFormButton = document.querySelector(".add-book > img");
-// const submitFormButton = document.querySelector(".add-book-form .submit-form");
+const clearAllButton = document.querySelector("button.clear-all");
 const addBookForm = document.querySelector(".add-book-form");
 const container = document.querySelector(".container");
 const bookCardsContainer = document.querySelector(".book-cards-container");
@@ -18,21 +19,35 @@ const inputBookTitle = document.getElementById("title");
 const inputBookAuthor = document.getElementById("author");
 const inputBookPages = document.getElementById("pages");
 const inputBookPagesRead = document.getElementById("pages-read");
-const inputBookStatusRead = document.getElementById("read");
-const inputBookStatusNotread = document.getElementById("notread");
-const inputBookStatusInProgress = document.getElementById("in-progress");
 const inputBookStatusRadios = Array.from(
 	document.querySelectorAll(".add-book-form input[name='status'")
 );
 
+/* Card element */
+function deleteCard(event) {
+	let thisCard = event.target.parentNode.parentNode.parentNode;
+	let thisCardIndex = thisCard.classList[1];
+	myLibrary.splice(thisCardIndex, 1);
+	cards.splice(thisCardIndex, 1);
+	bookCardsContainer.removeChild(thisCard);
+}
+
 /* Element event handler */
+function disableInput(input) {
+	input.setAttribute("disabled", "");
+	input.removeAttribute("required");
+}
+
+function enableInput(input) {
+	input.setAttribute("required", "");
+	input.removeAttribute("disabled");
+}
+
 function radiosEvents(event) {
 	if (event.target === inputBookStatusRadios[2]) {
-		inputBookPagesRead.removeAttribute("disabled");
-		inputBookPagesRead.setAttribute("required", "");
+		enableInput(inputBookPagesRead);
 	} else {
-		inputBookPagesRead.setAttribute("disabled", "");
-		inputBookPagesRead.removeAttribute("required");
+		disableInput(inputBookPagesRead);
 	}
 }
 
@@ -41,6 +56,7 @@ for (let i = 0; i < inputBookStatusRadios.length; i++) {
 }
 
 function Book(title, author, pages, pagesRead, status) {
+	this.index = totalBooks++;
 	this.title = title;
 	this.author = author;
 	this.pages = pages;
@@ -49,7 +65,7 @@ function Book(title, author, pages, pagesRead, status) {
 }
 
 Book.prototype.logInfo = function () {
-	return `${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
+	return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
 };
 
 function createBookCard(index, title, author, pages, pagesRead, status) {
@@ -59,12 +75,12 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 						<div class="card-header">
 							<h3 class="title">${title}</h3>
 							<button class="delete">
-								<img src="img/trash-can.svg" alt="" />
+								<img src="img/trash-can.svg" alt="" onclick="deleteCard(event)"/>
 							</button>
 						</div>	
-						<p class="author">Author: ${author}</p>
-						<p class="pages">Number of Pages: ${pages}</p>
-						<p class="pages-read">Number of Pages Read: ${pagesRead}</p>
+						<p class="author"><b>Author:</b> ${author}</p>
+						<p class="pages"><b>Number of Pages</b>: ${pages}</p>
+						<p class="pages-read"><b>Number of Pages Read:</b> ${pagesRead}</p>
 						<fieldset class="book-status">
 							<legend>Book Status</legend>
 							<div class="options">
@@ -105,6 +121,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 			: status === "Not Read"
 			? "#fca5a5"
 			: "#fdba74";
+
 	return card;
 }
 
@@ -118,19 +135,37 @@ function addBookFormDisplay() {
 	container.style = "filter: blur(5px);";
 }
 
-function displayLibrary() {
-	bookCardsContainer.innerHTML = "";
-	for (let i = 0; i < myLibrary.length; i++) {
-		let card = createBookCard(
-			i + 1,
-			myLibrary[i].title,
-			myLibrary[i].author,
-			myLibrary[i].pages,
-			myLibrary[i].pagesRead,
-			myLibrary[i].status
-		);
-		bookCardsContainer.appendChild(card);
-	}
+// function displayLibrary() {
+// 	bookCardsContainer.innerHTML = "";
+// 	for (let i = 0; i < myLibrary.length; i++) {
+// 		let card = createBookCard(
+// 			myLibrary[i].index,
+// 			myLibrary[i].title,
+// 			myLibrary[i].author,
+// 			myLibrary[i].pages,
+// 			myLibrary[i].pagesRead,
+// 			myLibrary[i].status
+// 		);
+// 		bookCardsContainer.appendChild(card);
+// 	}
+// }
+
+function addCardToScreen(book) {
+	let card = createBookCard(
+		book.index,
+		book.title,
+		book.author,
+		book.pages,
+		book.pagesRead,
+		book.status
+	);
+	cards.push(card);
+	bookCardsContainer.appendChild(card);
+}
+
+function resetInputForm() {
+	addBookForm.reset(); // Reset the whole form
+	disableInput(inputBookPagesRead);
 }
 
 function addBookToLibrary(event) {
@@ -147,31 +182,36 @@ function addBookToLibrary(event) {
 		}
 		if (inputBookPagesRead.required) {
 			newBook.pagesRead = inputBookPagesRead.value;
+		} else if (!inputBookPagesRead.required && newBook.status === "Read") {
+			newBook.pagesRead = inputBookPages.value;
+		} else if (!inputBookPagesRead.required && newBook.status === "Not Read") {
+			newBook.pagesRead = 0;
 		}
 	}
 	myLibrary.push(newBook);
+	addCardToScreen(newBook);
 	event.preventDefault(); // Prevent the window from reloading again
-	addBookForm.reset(); // Reset the whole form
+	resetInputForm();
 	addBookFormHide();
-	displayLibrary();
 }
-
-addBookForm.addEventListener("submit", addBookToLibrary);
-
-/*
-	Loop through the library list and display books on the screen.
-	@param library: list of book objects.
-*/
 
 function toggleAddBookForm(event) {
 	if (event.target === openFormButton) {
 		addBookFormDisplay();
 		event.preventDefault();
 	} else if (event.target === closeFormButton) {
+		resetInputForm();
 		addBookFormHide();
 		event.preventDefault();
 	}
 }
 
+addBookForm.addEventListener("submit", addBookToLibrary);
 openFormButton.addEventListener("click", toggleAddBookForm);
 closeFormButton.addEventListener("click", toggleAddBookForm);
+
+function clearAll() {
+	myLibrary.length = 0;
+	bookCardsContainer.innerHTML = "";
+}
+clearAllButton.addEventListener("click", clearAll);
