@@ -211,6 +211,7 @@ a:link:hover {
 	transform: translateY(-5%);
 	transition: all 0.2s;
 }
+
 .search-area input[type="search"]:focus::placeholder {
 	color: var(--color-white);
 }
@@ -256,13 +257,13 @@ a:link:hover {
 .card fieldset > legend,
 .add-book-form fieldset > legend {
 	font-size: 1.2rem;
-	font-weight: 650;
+	/* font-weight: 650; */
 }
 
 .card .options,
 .add-book-form .options {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 .options .option {
@@ -306,14 +307,14 @@ form {
 	left: 50%;
 	top: 50%;
 	margin-left: -225px;
-	margin-top: -300px;
+	margin-top: -325px;
 
 	z-index: 100;
 	display: flex;
 	padding: 20px 50px;
 	flex-direction: column;
 	width: 450px;
-	height: 600px;
+	height: 650px;
 	gap: 20px;
 	background: #14b8a6;
 	border-radius: 20px;
@@ -381,6 +382,23 @@ form > h1 {
 	box-shadow: none;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
+}
+
+input + span {
+	position: relative;
+}
+
+input:required + span::after {
+	font-size: 0.7rem;
+	font-weight: 600;
+	position: absolute;
+	content: "required";
+	color: white;
+	background-color: var(--button-background-color);
+	border-radius: 10px;
+	padding: 5px 10px;
+	top: -80px;
+	right: 10px;
 }
 
 /* Add-book buttons will float with the screen */

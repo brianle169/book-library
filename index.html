@@ -129,44 +129,47 @@
 			</button>
 			<h1>Add A New Book</h1>
 			<div class="form-input book-title">
-				<label for="title"> Book title: </label>
-				<input id="title" type="text" />
+				<label for="title"> Book title</label>
+				<input id="title" type="text" required />
+				<span></span>
 			</div>
 			<div class="form-input book-author">
-				<label for="author"> Book author: </label>
-				<input id="author" type="text" />
+				<label for="author"> Book author </label>
+				<input id="author" type="text" required />
+				<span></span>
 			</div>
 			<div class="form-input book-pages">
-				<label for="pages"> Number of pages: </label>
-				<input id="pages" type="number" />
+				<label for="pages"> Number of pages </label>
+				<input id="pages" type="number" required />
+				<span></span>
 			</div>
-			<div class="form-input book-pages">
-				<label for="pages-read"> Number of pages read: </label>
+			<div class="form-input book-pages-read">
+				<label for="pages-read"> Number of pages read </label>
 				<input id="pages-read" type="number" />
+				<span></span>
 			</div>
 			<fieldset class="form-input book-status">
 				<legend>Have you read this book?</legend>
 				<div class="options">
 					<div class="option">
-						<label for="read"> Read </label>
+						<label for="read"> Yes </label>
 						<input type="radio" id="read" name="status" value="read" />
 					</div>
 					<div class="option">
-						<label for="notread"> Not Read </label>
+						<label for="notread"> No </label>
 						<input type="radio" id="notread" name="status" value="notread" />
 					</div>
 					<div class="option">
-						<label for="n-progress"> In Progress </label>
+						<label for="in-progress"> Reading </label>
 						<input
 							type="radio"
-							id="n-progress"
+							id="in-progress"
 							name="status"
-							value="in-progress"
-							checked />
+							value="in-progress" />
 					</div>
 				</div>
 			</fieldset>
-			<button type="submit">Add Book</button>
+			<button class="submit-form" type="submit">Add Book</button>
 		</form>
 	</body>
 </html>

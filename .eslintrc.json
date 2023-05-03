@@ -11,6 +11,8 @@
 	},
 	"rules": {
 		"no-unused-vars": "off",
-		"prefer-const": "off"
+		"prefer-const": "off",
+		"no-lonely-if": "warn",
+		"no-plusplus": "off"
 	}
 }
