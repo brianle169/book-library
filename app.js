@@ -1,18 +1,17 @@
 let myLibrary = [];
 let cards = [];
-let totalBooks = 0;
-let booksFinished = 0;
-let booksInProgress = 0;
-let booksNotRead = 0;
-let totalPages = 0;
 let newBook;
 
+/* Cards and form elements */
 const closeFormButton = document.querySelector(".close-form > img");
 const openFormButton = document.querySelector(".add-book > img");
 const clearAllButton = document.querySelector("button.clear-all");
 const addBookForm = document.querySelector(".add-book-form");
 const container = document.querySelector(".container");
 const bookCardsContainer = document.querySelector(".book-cards-container");
+const libraryLogValues = Array.from(
+	document.querySelectorAll(".library-log p.value")
+);
 
 /* Form elements */
 const inputBookTitle = document.getElementById("title");
@@ -23,7 +22,22 @@ const inputBookStatusRadios = Array.from(
 	document.querySelectorAll(".add-book-form input[name='status'")
 );
 
-/* Card element */
+function setLogInfo() {
+	let booksFinished = 0;
+	let booksInProgress = 0;
+	let booksNotRead = 0;
+
+	for (let book = 0; book < myLibrary.length; book++) {
+		if (myLibrary[book].status === "Read") booksFinished++;
+		else if (myLibrary[book].status === "Not Read") booksNotRead++;
+		else if (myLibrary[book].status === "Reading") booksInProgress++;
+	}
+
+	libraryLogValues[0].textContent = myLibrary.length;
+	libraryLogValues[1].textContent = booksFinished;
+	libraryLogValues[2].textContent = booksInProgress;
+	libraryLogValues[3].textContent = booksNotRead;
+}
 
 /* Element event handler */
 function disableInput(input) {
@@ -49,7 +63,7 @@ for (let i = 0; i < inputBookStatusRadios.length; i++) {
 }
 
 function Book(title, author, pages, pagesRead, status) {
-	totalBooks++;
+	// totalBooks++;
 	this.index = myLibrary.length;
 	this.title = title;
 	this.author = author;
@@ -62,10 +76,20 @@ Book.prototype.logInfo = function () {
 	return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
 };
 
+function getCurrentStatus(card) {
+	let cardRadios = Array.from(card.querySelectorAll("input[type='radio']"));
+	let currentStatus;
+	for (let i = 0; i < cardRadios.length; i++) {
+		if (cardRadios[i].checked) currentStatus = cardRadios[i].value;
+	}
+	return currentStatus;
+}
+
 function changeBookStatus(event) {
 	let statusValue = event.target.value;
 	let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
 	let thisCardIndex = thisCard.classList[1];
+	let currentStatusValue = getCurrentStatus(thisCard);
 	let thisBook = myLibrary[thisCardIndex];
 	let thisCardPagesRead = thisCard.querySelector(".pages-read");
 
@@ -83,6 +107,7 @@ function changeBookStatus(event) {
 		thisBook.pagesRead = prompt("Which page are you currently on?");
 	}
 	thisCardPagesRead.innerHTML = `<b>Number of Pages Read:</b> ${thisBook.pagesRead}`;
+	setLogInfo();
 }
 
 function createBookCard(index, title, author, pages, pagesRead, status) {
@@ -141,7 +166,6 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 			: status === "Not Read"
 			? "#fca5a5"
 			: "#fdba74";
-
 	return card;
 }
 
@@ -167,7 +191,6 @@ function displayLibrary() {
 }
 
 function deleteCard(event) {
-	totalBooks--;
 	let thisCard = event.target.parentNode.parentNode.parentNode;
 	let thisCardIndex = thisCard.classList[1];
 	myLibrary.splice(thisCardIndex, 1);
@@ -175,6 +198,7 @@ function deleteCard(event) {
 	bookCardsContainer.removeChild(thisCard);
 	updateIndexes(thisCardIndex);
 	displayLibrary();
+	setLogInfo();
 }
 
 function addBookFormHide() {
@@ -230,6 +254,7 @@ function addBookToLibrary(event) {
 	event.preventDefault(); // Prevent the window from reloading again
 	resetInputForm();
 	addBookFormHide();
+	setLogInfo();
 }
 
 function toggleAddBookForm(event) {
@@ -251,5 +276,10 @@ function clearAll() {
 	myLibrary.length = 0;
 	cards.length = 0;
 	bookCardsContainer.innerHTML = "";
+	setLogInfo();
 }
 clearAllButton.addEventListener("click", clearAll);
+
+window.onload = () => {
+	setLogInfo();
+};
