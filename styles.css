@@ -9,7 +9,6 @@
 	margin: 0;
 	box-sizing: border-box;
 	outline: none;
-	/* border: 1px solid red; */
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	color: var(--body-text-color);
 }
@@ -28,18 +27,14 @@ a:link:hover {
 }
 
 .container {
-	height: 100vh;
+	min-height: 100vh;
 	position: relative;
 	display: grid;
-	grid-template-rows: 15% 1fr;
-	margin: 20px;
+	grid-template-rows: 100px 1fr;
 	background: #99f6e4;
-	border-radius: 10px;
 }
 
 .header {
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
 	background-color: var(--button-background-color);
 	grid-area: 1 / 1 / 2 / 2;
 	padding: 10px 100px;
@@ -171,7 +166,7 @@ a:link:hover {
 }
 
 .instruction:hover > span::after {
-	content: "Press the (+) button on the bottom-right corner to add a new book to the page. Or press the 'Random Book' button to generate a random one (for testing)";
+	content: 'Press "Random Book" button to add a randomly generated book. Or press the (+) button on the bottom-right corner to define your own.';
 	font-size: 0.8rem;
 	font-weight: 500;
 	position: absolute;
@@ -258,7 +253,7 @@ a:link:hover {
 	padding: 30px 50px;
 	box-shadow: inset 3px 6px 5px 1px #042f2e35;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(350px, 400px));
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 20px;
 }
 

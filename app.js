@@ -243,7 +243,7 @@ function generateRandomString(length) {
 function addRandomBookToLibrary(event) {
 	let statusList = ["Read", "Not Read", "Reading"];
 	newBook = new Book(
-		generateRandomString(15),
+		`Random Book #${myLibrary.length}`,
 		generateRandomString(10),
 		Math.floor(Math.random() * 1000),
 		null,
