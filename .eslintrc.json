@@ -10,9 +10,9 @@
 		"ecmaVersion": "latest"
 	},
 	"rules": {
-		"no-unused-vars": "off",
+		"no-unused-vars": "error",
 		"prefer-const": "off",
-		"no-lonely-if": "warn",
+		"no-lonely-if": "error",
 		"no-plusplus": "off"
 	}
 }

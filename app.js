@@ -75,15 +75,7 @@ Book.prototype.logInfo = function () {
 	return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
 };
 
-function getCurrentStatus(card) {
-	let cardRadios = Array.from(card.querySelectorAll("input[type='radio']"));
-	let currentStatus;
-	for (let i = 0; i < cardRadios.length; i++) {
-		if (cardRadios[i].checked) currentStatus = cardRadios[i].value;
-	}
-	return currentStatus;
-}
-
+// eslint-disable-next-line no-unused-vars
 function changeBookStatus(event) {
 	let statusValue = event.target.value;
 	let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
@@ -188,6 +180,7 @@ function displayLibrary() {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 function deleteCard(event) {
 	let thisCard = event.target.parentNode.parentNode.parentNode;
 	let thisCardIndex = thisCard.classList[1];
@@ -240,6 +233,7 @@ function generateRandomString(length) {
 	return result;
 }
 
+// eslint-disable-next-line no-unused-vars
 function addRandomBookToLibrary(event) {
 	let statusList = ["Read", "Not Read", "Reading"];
 	newBook = new Book(
@@ -262,7 +256,6 @@ function addRandomBookToLibrary(event) {
 	addCardToScreen(newBook);
 	event.preventDefault(); // Prevent the window from reloading again
 	setLogInfo();
-	// console.log(newBook);
 }
 
 function addBookToLibrary(event) {
