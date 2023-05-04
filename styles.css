@@ -98,7 +98,7 @@ a:link:hover {
 	display: grid;
 	grid-template-rows: 10% 1fr;
 	align-content: start;
-	padding: 20px 50px;
+	padding: 20px 30px;
 	row-gap: 15px;
 	border-bottom-left-radius: 10px;
 }
@@ -157,6 +157,29 @@ a:link:hover {
 	background: #ca324c;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
+}
+
+.instruction {
+	display: flex;
+	justify-content: flex-start;
+	column-gap: 5px;
+	align-items: center;
+}
+
+.instruction > span {
+	position: relative;
+}
+
+.instruction:hover > span::after {
+	content: "Press the (+) button on the bottom-right corner to add a new book to the page.";
+	font-size: 0.8rem;
+	position: absolute;
+	color: var(--color-white);
+	background: var(--button-background-color);
+	padding: 10px 10px;
+	width: 200px;
+	top: -100px;
+	left: 9px;
 }
 
 .body-container > .search-bar {
