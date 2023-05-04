@@ -63,7 +63,6 @@ for (let i = 0; i < inputBookStatusRadios.length; i++) {
 }
 
 function Book(title, author, pages, pagesRead, status) {
-	// totalBooks++;
 	this.index = myLibrary.length;
 	this.title = title;
 	this.author = author;
@@ -89,7 +88,6 @@ function changeBookStatus(event) {
 	let statusValue = event.target.value;
 	let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
 	let thisCardIndex = thisCard.classList[1];
-	let currentStatusValue = getCurrentStatus(thisCard);
 	let thisBook = myLibrary[thisCardIndex];
 	let thisCardPagesRead = thisCard.querySelector(".pages-read");
 
@@ -251,16 +249,20 @@ function addRandomBookToLibrary(event) {
 		null,
 		statusList[Math.floor(Math.random() * 3)]
 	);
-	do {
-		if (newBook.status === "Reading") {
-			newBook.pagesRead =
-				newBook.pages - Math.floor(Math.random() * newBook.pages);
-		}
-	} while (newBook.pagesRead < newBook.pages);
+	// eslint-disable-next-line no-nested-ternary
+	newBook.pagesRead =
+		// eslint-disable-next-line no-nested-ternary
+		newBook.status === "Read"
+			? newBook.pages
+			: newBook.status === "Not Read"
+			? 0
+			: newBook.pages - Math.floor(Math.random() * newBook.pages);
+
 	myLibrary.push(newBook);
 	addCardToScreen(newBook);
 	event.preventDefault(); // Prevent the window from reloading again
 	setLogInfo();
+	// console.log(newBook);
 }
 
 function addBookToLibrary(event) {

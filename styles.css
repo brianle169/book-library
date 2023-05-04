@@ -96,8 +96,8 @@ a:link:hover {
 	grid-column: 1;
 	grid-row: 1 / span 2;
 	display: grid;
-	grid-template-rows: 10% 1fr;
-	align-content: start;
+	grid-template-rows: max-content 10% 50%;
+	align-content: center;
 	padding: 20px 30px;
 	row-gap: 15px;
 	border-bottom-left-radius: 10px;
@@ -144,17 +144,17 @@ a:link:hover {
 	border-radius: 10px;
 }
 
-.log-container button:hover {
+.log-container button:hover,
+.search-bar .add-random-book:hover {
 	cursor: pointer;
-	background: #ff526f;
 	box-shadow: 2px 2px 2px 0px #042f2e81;
 	transform: translateY(-5%) translateX(-2%);
 	transition: all 0.1s;
 }
 
-.log-container button:active {
+.log-container button:active,
+.search-bar .add-random-book:active {
 	box-shadow: none;
-	background: #ca324c;
 	transform: translateY(0%) translateX(0%);
 	transition: none 0.1s;
 }
@@ -171,7 +171,7 @@ a:link:hover {
 }
 
 .instruction:hover > span::after {
-	content: "Press the (+) button on the bottom-right corner to add a new book to the page.";
+	content: "Press the (+) button on the bottom-right corner to add a new book to the page. Or press the 'Random Book' button to generate a random one (for testing)";
 	font-size: 0.8rem;
 	font-weight: 500;
 	position: absolute;
@@ -179,7 +179,7 @@ a:link:hover {
 	background: var(--button-background-color);
 	padding: 10px 10px;
 	width: 200px;
-	top: -100px;
+	top: 15px;
 	left: 9px;
 }
 
@@ -187,13 +187,27 @@ a:link:hover {
 	padding: 10px 50px;
 	background-color: var(--color-white);
 	display: grid;
-	grid-template-columns: max-content 1fr;
+	grid-template-columns: max-content 1fr 1fr;
 	align-items: center;
+}
+
+.search-bar .add-random-book {
+	width: 35%;
+	height: 100%;
+	align-self: center;
+	justify-self: center;
+	font-size: 1.2rem;
+	font-weight: 600;
+	outline-color: transparent;
+	border: none;
+	background-color: var(--button-background-color);
+	color: var(--color-white);
+	border-radius: 10px;
 }
 
 .search-bar .search-area {
 	display: grid;
-	grid-template-columns: max-content 40%;
+	grid-template-columns: max-content 80%;
 	justify-content: center;
 	align-items: center;
 	column-gap: 10px;

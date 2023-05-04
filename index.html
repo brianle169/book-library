@@ -50,6 +50,15 @@
 			<div class="body-container">
 				<!-- General information about current library -->
 				<div class="library-log">
+					<div class="instruction">
+						<span></span>
+						<img
+							src="img/information-slab-circle.svg"
+							alt=""
+							height="25"
+							width="25" />
+						<p>Need help? Hover over me!</p>
+					</div>
 					<h2>Library Log</h2>
 					<div class="log-container">
 						<p class="total-books">Total Books</p>
@@ -62,19 +71,15 @@
 						<p class="books-notread value"></p>
 						<button class="clear-all">Clear All</button>
 					</div>
-					<div class="instruction">
-						<span></span>
-						<img
-							src="img/information-slab-circle.svg"
-							alt=""
-							height="25"
-							width="25" />
-						<p>Need help? Hover over me!</p>
-					</div>
 				</div>
 				<!-- A container for book cards -->
 				<div class="search-bar">
 					<h2>Your Books</h2>
+					<button
+						class="add-random-book"
+						onclick="addRandomBookToLibrary(event)">
+						Random Book
+					</button>
 					<div class="search-area">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
