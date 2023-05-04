@@ -173,6 +173,7 @@ a:link:hover {
 .instruction:hover > span::after {
 	content: "Press the (+) button on the bottom-right corner to add a new book to the page.";
 	font-size: 0.8rem;
+	font-weight: 500;
 	position: absolute;
 	color: var(--color-white);
 	background: var(--button-background-color);

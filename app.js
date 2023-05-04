@@ -229,6 +229,40 @@ function resetInputForm() {
 	disableInput(inputBookPagesRead);
 }
 
+function generateRandomString(length) {
+	let result = "";
+	const characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const charactersLength = characters.length;
+	let counter = 0;
+	while (counter < length) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		counter += 1;
+	}
+	return result;
+}
+
+function addRandomBookToLibrary(event) {
+	let statusList = ["Read", "Not Read", "Reading"];
+	newBook = new Book(
+		generateRandomString(15),
+		generateRandomString(10),
+		Math.floor(Math.random() * 1000),
+		null,
+		statusList[Math.floor(Math.random() * 3)]
+	);
+	do {
+		if (newBook.status === "Reading") {
+			newBook.pagesRead =
+				newBook.pages - Math.floor(Math.random() * newBook.pages);
+		}
+	} while (newBook.pagesRead < newBook.pages);
+	myLibrary.push(newBook);
+	addCardToScreen(newBook);
+	event.preventDefault(); // Prevent the window from reloading again
+	setLogInfo();
+}
+
 function addBookToLibrary(event) {
 	newBook = new Book(
 		inputBookTitle.value,
