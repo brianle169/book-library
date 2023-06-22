@@ -4,6 +4,7 @@
   "description": "A simple book library project, built with HTML CSS and JavaScript.",
   "main": "app.js",
   "scripts": {
+    "start": "browser-sync start -sw --browser 'chrome.exe' --files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
