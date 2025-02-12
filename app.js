@@ -7,8 +7,9 @@ const closeFormButton = document.querySelector(".close-form > img");
 const openFormButton = document.querySelector(".add-book > img");
 const clearAllButton = document.querySelector("button.clear-all");
 const addBookForm = document.querySelector(".add-book-form");
+const addRandomBookButton = document.querySelector("button.add-random-book");
 const container = document.querySelector(".container");
-const bookCardsContainer = document.querySelector(".book-cards-container");
+const bookcardsCont = document.querySelector(".book-cards-container");
 const libraryLogValues = Array.from(
   document.querySelectorAll(".library-log p.value")
 );
@@ -39,7 +40,7 @@ class Book {
 }
 
 // Control Panel IIFE: controls the functionality of buttons and events of the page
-const ctrlPanel = (function () {
+const ctrlPanel = (() => {
   /* Element event handler */
   function disableInput(input) {
     input.setAttribute("disabled", "");
@@ -101,42 +102,15 @@ const ctrlPanel = (function () {
     libraryLogValues[2].textContent = booksInProgress;
     libraryLogValues[3].textContent = booksNotRead;
   }
-  return { toggleAddBookForm, setLogInfo, radiosEvents };
+  return { toggleAddBookForm, setLogInfo, radiosEvents, resetInputForm };
 })();
 
-for (let i = 0; i < inputBookStatusRadios.length; i++) {
-  inputBookStatusRadios[i].addEventListener("input", ctrlPanel.radiosEvents);
-}
-
-// eslint-disable-next-line no-unused-vars
-function changeBookStatus(event) {
-  let statusValue = event.target.value;
-  let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
-  let thisCardIndex = thisCard.classList[1];
-  let thisBook = myLibrary[thisCardIndex];
-  let thisCardPagesRead = thisCard.querySelector(".pages-read");
-
-  if (statusValue === "read") {
-    thisCard.style.backgroundColor = "#bef264";
-    thisBook.status = "Read";
-    thisBook.pagesRead = thisBook.pages;
-  } else if (statusValue === "notread") {
-    thisCard.style.backgroundColor = "#fca5a5";
-    thisBook.status = "Not Read";
-    thisBook.pagesRead = 0;
-  } else if (statusValue === "reading") {
-    thisCard.style.backgroundColor = "#fdba74";
-    thisBook.status = "Reading";
-    thisBook.pagesRead = prompt("Which page are you currently on?");
-  }
-  thisCardPagesRead.innerHTML = `<b>Number of Pages Read:</b> ${thisBook.pagesRead}`;
-  setLogInfo();
-}
-
-function createBookCard(index, title, author, pages, pagesRead, status) {
-  let card = document.createElement("div");
-  card.className = `card ${index}`;
-  card.innerHTML = `
+// cardsCont IIFE: controls the functionality of the cards and cards container
+const cardsCont = (() => {
+  function createBookCard(index, title, author, pages, pagesRead, status) {
+    let card = document.createElement("div");
+    card.className = `card ${index}`;
+    card.innerHTML = `
 		      <div class="card-header">
 			      <h3 class="title">${title}</h3>
 			      <button class="delete">
@@ -156,7 +130,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 						      id="status-read-${index}"
 						      name="status-${index}"
 						      value="read"
-						      oninput="changeBookStatus(event)"
+						      oninput="cardsCont.changeBookStatus(event)"
 						      ${status === "Read" ? "checked" : ""}/>
 				      </div>
 				      <div class="option">
@@ -166,7 +140,7 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 						      id="status-notread-${index}"
 						      name="status-${index}"
 						      value="notread" 
-						      oninput="changeBookStatus(event)"
+						      oninput="cardsCont.changeBookStatus(event)"
 						      ${status === "Not Read" ? "checked" : ""}/>
 				      </div>
 				      <div class="option">
@@ -176,146 +150,184 @@ function createBookCard(index, title, author, pages, pagesRead, status) {
 						      id="status-in-progress${index}"
 						      name="status-${index}"
 						      value="reading"
-						      oninput="changeBookStatus(event)"
+						      oninput="cardsCont.changeBookStatus(event)"
 						      ${status === "Reading" ? "checked" : ""}/>
 				      </div>
 			      </div>
 		      </fieldset>`;
-  // eslint-disable-next-line no-nested-ternary
-  card.style.backgroundColor =
     // eslint-disable-next-line no-nested-ternary
-    status === "Read"
-      ? "#bef264"
-      : status === "Not Read"
-      ? "#fca5a5"
-      : "#fdba74";
-  return card;
-}
-
-function updateIndexes(index) {
-  for (let i = index; i < myLibrary.length; i++) {
-    myLibrary[i].index -= 1;
+    card.style.backgroundColor =
+      // eslint-disable-next-line no-nested-ternary
+      status === "Read"
+        ? "#bef264"
+        : status === "Not Read"
+        ? "#fca5a5"
+        : "#fdba74";
+    return card;
   }
-}
 
-function displayLibrary() {
-  bookCardsContainer.innerHTML = "";
-  for (let i = 0; i < myLibrary.length; i++) {
+  function addCardToScreen(book) {
     let card = createBookCard(
-      myLibrary[i].index,
-      myLibrary[i].title,
-      myLibrary[i].author,
-      myLibrary[i].pages,
-      myLibrary[i].pagesRead,
-      myLibrary[i].status
+      book.index,
+      book.title,
+      book.author,
+      book.pages,
+      book.pagesRead,
+      book.status
     );
-    bookCardsContainer.appendChild(card);
+    cards.push(card);
+    bookcardsCont.appendChild(card);
   }
-}
 
-// eslint-disable-next-line no-unused-vars
-function deleteCard(event) {
-  let thisCard = event.target.parentNode.parentNode.parentNode;
-  let thisCardIndex = thisCard.classList[1];
-  myLibrary.splice(thisCardIndex, 1);
-  cards.splice(thisCardIndex, 1);
-  bookCardsContainer.removeChild(thisCard);
-  updateIndexes(thisCardIndex);
-  displayLibrary();
-  setLogInfo();
-}
-
-function addCardToScreen(book) {
-  let card = createBookCard(
-    book.index,
-    book.title,
-    book.author,
-    book.pages,
-    book.pagesRead,
-    book.status
-  );
-  cards.push(card);
-  bookCardsContainer.appendChild(card);
-}
-
-function generateRandomString(length) {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
+  function displayLibrary() {
+    bookcardsCont.innerHTML = "";
+    for (let i = 0; i < myLibrary.length; i++) {
+      let card = createBookCard(
+        myLibrary[i].index,
+        myLibrary[i].title,
+        myLibrary[i].author,
+        myLibrary[i].pages,
+        myLibrary[i].pagesRead,
+        myLibrary[i].status
+      );
+      bookcardsCont.appendChild(card);
+    }
   }
-  return result;
-}
 
-// eslint-disable-next-line no-unused-vars
-function addRandomBookToLibrary(event) {
-  let statusList = ["Read", "Not Read", "Reading"];
-  newBook = new Book(
-    `Random Book #${myLibrary.length}`,
-    generateRandomString(10),
-    Math.floor(Math.random() * 1000),
-    null,
-    statusList[Math.floor(Math.random() * 3)]
-  );
-  // eslint-disable-next-line no-nested-ternary
-  newBook.pagesRead =
+  function generateRandomString(length) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
+
+  function addRandomBookToLibrary(event) {
+    let statusList = ["Read", "Not Read", "Reading"];
+    let length = 10;
+    newBook = new Book(
+      `Random Book #${myLibrary.length}`,
+      generateRandomString(length),
+      Math.floor(Math.random() * 1000),
+      null,
+      statusList[Math.floor(Math.random() * 3)]
+    );
     // eslint-disable-next-line no-nested-ternary
-    newBook.status === "Read"
-      ? newBook.pages
-      : newBook.status === "Not Read"
-      ? 0
-      : newBook.pages - Math.floor(Math.random() * newBook.pages);
+    newBook.pagesRead =
+      // eslint-disable-next-line no-nested-ternary
+      newBook.status === "Read"
+        ? newBook.pages
+        : newBook.status === "Not Read"
+        ? 0
+        : newBook.pages - Math.floor(Math.random() * newBook.pages);
 
-  myLibrary.push(newBook);
-  addCardToScreen(newBook);
-  event.preventDefault(); // Prevent the window from reloading again
-  setLogInfo();
-}
+    myLibrary.push(newBook);
+    addCardToScreen(newBook);
+    event.preventDefault(); // Prevent the window from reloading again
+    ctrlPanel.setLogInfo();
+  }
 
-function addBookToLibrary(event) {
-  newBook = new Book(
-    inputBookTitle.value,
-    inputBookAuthor.value,
-    inputBookPages.value,
-    null,
-    null
-  );
-  for (let i = 0; i < inputBookStatusRadios.length; i++) {
-    if (inputBookStatusRadios[i].checked) {
-      newBook.status = inputBookStatusRadios[i].value;
+  function addBookToLibrary(event) {
+    newBook = new Book(
+      inputBookTitle.value,
+      inputBookAuthor.value,
+      inputBookPages.value,
+      null,
+      null
+    );
+    for (let i = 0; i < inputBookStatusRadios.length; i++) {
+      if (inputBookStatusRadios[i].checked) {
+        newBook.status = inputBookStatusRadios[i].value;
+      }
+      if (inputBookPagesRead.required) {
+        newBook.pagesRead = inputBookPagesRead.value;
+      } else if (!inputBookPagesRead.required && newBook.status === "Read") {
+        newBook.pagesRead = inputBookPages.value;
+      } else if (
+        !inputBookPagesRead.required &&
+        newBook.status === "Not Read"
+      ) {
+        newBook.pagesRead = 0;
+      }
     }
-    if (inputBookPagesRead.required) {
-      newBook.pagesRead = inputBookPagesRead.value;
-    } else if (!inputBookPagesRead.required && newBook.status === "Read") {
-      newBook.pagesRead = inputBookPages.value;
-    } else if (!inputBookPagesRead.required && newBook.status === "Not Read") {
-      newBook.pagesRead = 0;
+    myLibrary.push(newBook);
+    addCardToScreen(newBook);
+    event.preventDefault(); // Prevent the window from reloading again
+    ctrlPanel.resetInputForm();
+    ctrlPanel.addBookFormHide();
+    ctrlPanel.setLogInfo();
+  }
+
+  function updateIndexes(index) {
+    for (let i = index; i < myLibrary.length; i++) {
+      myLibrary[i].index -= 1;
     }
   }
-  myLibrary.push(newBook);
-  addCardToScreen(newBook);
-  event.preventDefault(); // Prevent the window from reloading again
-  resetInputForm();
-  addBookFormHide();
-  setLogInfo();
-}
 
-addBookForm.addEventListener("submit", addBookToLibrary);
+  function deleteCard(event) {
+    let thisCard = event.target.parentNode.parentNode.parentNode;
+    let thisCardIndex = thisCard.classList[1];
+    myLibrary.splice(thisCardIndex, 1);
+    cards.splice(thisCardIndex, 1);
+    bookcardsCont.removeChild(thisCard);
+    updateIndexes(thisCardIndex);
+    displayLibrary();
+    ctrlPanel.setLogInfo();
+  }
+  function changeBookStatus(event) {
+    let statusValue = event.target.value;
+    let thisCard = event.target.parentNode.parentNode.parentNode.parentNode;
+    let thisCardIndex = thisCard.classList[1];
+    let thisBook = myLibrary[thisCardIndex];
+    let thisCardPagesRead = thisCard.querySelector(".pages-read");
+
+    if (statusValue === "read") {
+      thisCard.style.backgroundColor = "#bef264";
+      thisBook.status = "Read";
+      thisBook.pagesRead = thisBook.pages;
+    } else if (statusValue === "notread") {
+      thisCard.style.backgroundColor = "#fca5a5";
+      thisBook.status = "Not Read";
+      thisBook.pagesRead = 0;
+    } else if (statusValue === "reading") {
+      thisCard.style.backgroundColor = "#fdba74";
+      thisBook.status = "Reading";
+      // eslint-disable-next-line no-alert
+      thisBook.pagesRead = prompt("Which page are you currently on?");
+    }
+    thisCardPagesRead.innerHTML = `<b>Number of Pages Read:</b> ${thisBook.pagesRead}`;
+    ctrlPanel.setLogInfo();
+  }
+  function clearAll() {
+    myLibrary.length = 0;
+    cards.length = 0;
+    bookcardsCont.innerHTML = "";
+    ctrlPanel.setLogInfo();
+  }
+
+  return {
+    addBookToLibrary,
+    addRandomBookToLibrary,
+    deleteCard,
+    changeBookStatus,
+    clearAll,
+  };
+})();
+
+addBookForm.addEventListener("submit", cardsCont.addBookToLibrary);
+addRandomBookButton.addEventListener("click", cardsCont.addRandomBookToLibrary);
 openFormButton.addEventListener("click", ctrlPanel.toggleAddBookForm);
 closeFormButton.addEventListener("click", ctrlPanel.toggleAddBookForm);
-
-function clearAll() {
-  myLibrary.length = 0;
-  cards.length = 0;
-  bookCardsContainer.innerHTML = "";
-  setLogInfo();
+clearAllButton.addEventListener("click", cardsCont.clearAll);
+for (let i = 0; i < inputBookStatusRadios.length; i++) {
+  inputBookStatusRadios[i].addEventListener("input", ctrlPanel.radiosEvents);
 }
-clearAllButton.addEventListener("click", clearAll);
 
 window.onload = () => {
-  setLogInfo();
+  ctrlPanel.setLogInfo();
 };
