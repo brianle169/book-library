@@ -22,46 +22,7 @@ const inputBookStatusRadios = Array.from(
   document.querySelectorAll(".add-book-form input[name='status'")
 );
 
-function setLogInfo() {
-  let booksFinished = 0;
-  let booksInProgress = 0;
-  let booksNotRead = 0;
-
-  for (let book = 0; book < myLibrary.length; book++) {
-    if (myLibrary[book].status === "Read") booksFinished++;
-    else if (myLibrary[book].status === "Not Read") booksNotRead++;
-    else if (myLibrary[book].status === "Reading") booksInProgress++;
-  }
-
-  libraryLogValues[0].textContent = myLibrary.length;
-  libraryLogValues[1].textContent = booksFinished;
-  libraryLogValues[2].textContent = booksInProgress;
-  libraryLogValues[3].textContent = booksNotRead;
-}
-
-/* Element event handler */
-function disableInput(input) {
-  input.setAttribute("disabled", "");
-  input.removeAttribute("required");
-}
-
-function enableInput(input) {
-  input.setAttribute("required", "");
-  input.removeAttribute("disabled");
-}
-
-function radiosEvents(event) {
-  if (event.target === inputBookStatusRadios[2]) {
-    enableInput(inputBookPagesRead);
-  } else {
-    disableInput(inputBookPagesRead);
-  }
-}
-
-for (let i = 0; i < inputBookStatusRadios.length; i++) {
-  inputBookStatusRadios[i].addEventListener("input", radiosEvents);
-}
-
+// Book class
 class Book {
   constructor(title, author, pages, pagesRead, status) {
     this.index = myLibrary.length;
@@ -75,6 +36,76 @@ class Book {
   logInfo() {
     return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
   }
+}
+
+// Control Panel IIFE: controls the functionality of buttons and events of the page
+const ctrlPanel = (function () {
+  /* Element event handler */
+  function disableInput(input) {
+    input.setAttribute("disabled", "");
+    input.removeAttribute("required");
+  }
+
+  function enableInput(input) {
+    input.setAttribute("required", "");
+    input.removeAttribute("disabled");
+  }
+
+  function radiosEvents(event) {
+    if (event.target === inputBookStatusRadios[2]) {
+      enableInput(inputBookPagesRead);
+    } else {
+      disableInput(inputBookPagesRead);
+    }
+  }
+
+  function addBookFormHide() {
+    addBookForm.style = "display: none;";
+    container.style = "";
+  }
+
+  function addBookFormDisplay() {
+    addBookForm.style = "display: flex;";
+    container.style = "filter: blur(5px);";
+  }
+
+  function resetInputForm() {
+    addBookForm.reset(); // Reset the whole form
+    disableInput(inputBookPagesRead);
+  }
+
+  function toggleAddBookForm(event) {
+    if (event.target === openFormButton) {
+      addBookFormDisplay();
+      event.preventDefault();
+    } else if (event.target === closeFormButton) {
+      resetInputForm();
+      addBookFormHide();
+      event.preventDefault();
+    }
+  }
+
+  function setLogInfo() {
+    let booksFinished = 0;
+    let booksInProgress = 0;
+    let booksNotRead = 0;
+
+    for (let book = 0; book < myLibrary.length; book++) {
+      if (myLibrary[book].status === "Read") booksFinished++;
+      else if (myLibrary[book].status === "Not Read") booksNotRead++;
+      else if (myLibrary[book].status === "Reading") booksInProgress++;
+    }
+
+    libraryLogValues[0].textContent = myLibrary.length;
+    libraryLogValues[1].textContent = booksFinished;
+    libraryLogValues[2].textContent = booksInProgress;
+    libraryLogValues[3].textContent = booksNotRead;
+  }
+  return { toggleAddBookForm, setLogInfo, radiosEvents };
+})();
+
+for (let i = 0; i < inputBookStatusRadios.length; i++) {
+  inputBookStatusRadios[i].addEventListener("input", ctrlPanel.radiosEvents);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -194,16 +225,6 @@ function deleteCard(event) {
   setLogInfo();
 }
 
-function addBookFormHide() {
-  addBookForm.style = "display: none;";
-  container.style = "";
-}
-
-function addBookFormDisplay() {
-  addBookForm.style = "display: flex;";
-  container.style = "filter: blur(5px);";
-}
-
 function addCardToScreen(book) {
   let card = createBookCard(
     book.index,
@@ -215,11 +236,6 @@ function addCardToScreen(book) {
   );
   cards.push(card);
   bookCardsContainer.appendChild(card);
-}
-
-function resetInputForm() {
-  addBookForm.reset(); // Reset the whole form
-  disableInput(inputBookPagesRead);
 }
 
 function generateRandomString(length) {
@@ -288,20 +304,9 @@ function addBookToLibrary(event) {
   setLogInfo();
 }
 
-function toggleAddBookForm(event) {
-  if (event.target === openFormButton) {
-    addBookFormDisplay();
-    event.preventDefault();
-  } else if (event.target === closeFormButton) {
-    resetInputForm();
-    addBookFormHide();
-    event.preventDefault();
-  }
-}
-
 addBookForm.addEventListener("submit", addBookToLibrary);
-openFormButton.addEventListener("click", toggleAddBookForm);
-closeFormButton.addEventListener("click", toggleAddBookForm);
+openFormButton.addEventListener("click", ctrlPanel.toggleAddBookForm);
+closeFormButton.addEventListener("click", ctrlPanel.toggleAddBookForm);
 
 function clearAll() {
   myLibrary.length = 0;
