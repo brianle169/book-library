@@ -62,18 +62,20 @@ for (let i = 0; i < inputBookStatusRadios.length; i++) {
   inputBookStatusRadios[i].addEventListener("input", radiosEvents);
 }
 
-function Book(title, author, pages, pagesRead, status) {
-  this.index = myLibrary.length;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.pagesRead = pagesRead;
-  this.status = status;
-}
+class Book {
+  constructor(title, author, pages, pagesRead, status) {
+    this.index = myLibrary.length;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.pagesRead = pagesRead;
+    this.status = status;
+  }
 
-Book.prototype.logInfo = function () {
-  return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
-};
+  logInfo() {
+    return `${this.index} ${this.title} by ${this.author}, ${this.pages} pages, read ${this.pagesRead}, ${this.status}`;
+  }
+}
 
 // eslint-disable-next-line no-unused-vars
 function changeBookStatus(event) {
