@@ -114,7 +114,7 @@ const cardsCont = (() => {
 		      <div class="card-header">
 			      <h3 class="title">${title}</h3>
 			      <button class="delete">
-				      <img src="img/trash-can.svg" alt="" onclick="deleteCard(event)"/>
+				      <img src="img/trash-can.svg" alt="" onclick="cardsCont.deleteCard(event)"/>
 			      </button>
 		      </div>	
 		      <p class="author"><b>Author:</b> ${author}</p>
